@@ -1,31 +1,21 @@
+function checkPass() {
+   let pass = document.getElementById("pass").value
+   let passConf = document.getElementById("pass-confirm").value
+   let check = true
 
-var eyeLock = document.getElementById("senhalock");
-var password = document.getElementById("pass");
-var eyeOpen = document.getElementById("senhaopen")
+   if(pass != passConf) {
+       check = false
+       alert("Senhas não coincidem! ❌")
+   }
 
-
-    eyeLock.onclick = function(){
-       this.src = "./assets/img/senhaopen.png";
-       pass.type = "text";
-       this.id = "senhaopen";
-
-    }
-
-    eyeOpen.onclick = function(){
-        this.src = "./assets/img/senhalocked.png";
-        pass.type = "password";
-        this.id = "senhaopen";
- 
-     }
-
-    
-    
-    
+   return check
+}
 
 
+function showPass(e) {
+   e.type = "text"
+}
 
-    
-    
-    
-
-
+function hidePass(e) {
+   e.type = "password"
+}

@@ -1,68 +1,226 @@
 <?php
+//Importação do cabeçalho
+include "/xampp/htdocs/aula12_manha_leo_gon/src/controller/header.php";
 
-require_once "/xampp/htdocs/PLog_In/const.php";
+include MODEL . "/user.php";
 
+//Recebendo os dados do formulário
+if( isset($_GET["photo"]) ) {
+    $photo = $_GET["photo"];
+} else {
+    $photo = null;
+}
+
+if( isset($_GET["user"]) ) {
+    $user = $_GET["user"];
+} else {
+    $user = null;
+}
+
+if( isset($_GET["birth"]) ) {
+    $birth = $_GET["birth"];
+} else {
+    $birth = null;
+}
+
+if( isset($_GET["first-name"]) ) {
+    $firstName = $_GET["first-name"];
+} else {
+    $firstName = null;
+}
+
+if( isset($_GET["last-name"]) ) {
+    $lastName = $_GET["last-name"];
+} else {
+    $lastName = null;
+}
+
+if( isset($_GET["desc"]) ) {
+    $desc = $_GET["desc"];
+} else {
+    $desc = null;
+}
+
+if( isset($_GET["cep"]) ) {
+    $cep = $_GET["cep"];
+} else {
+    $cep = null;
+}
+
+if( isset($_GET["address"]) ) {
+    $address = $_GET["address"];
+} else {
+    $address = null;
+}
+
+if( isset($_GET["number"]) ) {
+    $number = $_GET["number"];
+} else {
+    $number = null;
+}
+
+if( isset($_GET["complement"]) ) {
+    $complement = $_GET["complement"];
+} else {
+    $complement = null;
+}
+
+if( isset($_GET["neighborhood"]) ) {
+    $neighborhood = $_GET["neighborhood"];
+} else {
+    $neighborhood = null;
+}
+
+if( isset($_GET["city"]) ) {
+    $city = $_GET["city"];
+} else {
+    $city = null;
+}
+
+if( isset($_GET["state"]) ) {
+    $state = $_GET["state"];
+} else {
+    $state = null;
+}
+
+if( isset($_GET["sex"]) ) {
+    $sex = $_GET["sex"];
+} else {
+    $sex = null;
+}
+
+if( isset($_GET["phone"]) ) {
+    $phone = $_GET["phone"];
+} else {
+    $phone = null;
+}
+
+if( isset($_GET["email"]) ) {
+    $email = $_GET["email"];
+} else {
+    $email = null;
+}
+
+if( isset($_GET["notify"]) ) {
+    $notify = $_GET["notify"];
+} else {
+    $notify = null;
+}
+
+if( isset($_GET["actual-pass"]) ) {
+    $actualPass = $_GET["actual-pass"];
+} else {
+    $actualPass = null;
+}
+
+if( isset($_GET["new-pass"]) ) {
+    $newPass = $_GET["new-pass"];
+} else {
+    $newPass = null;
+}
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= DESCRIPTION ?>">
-    <meta name="keywords" content="<?= KEYWORDS ?>">
-    <meta name="author" content="<?= AUTHOR ?>">
-    <link rel="shortcut icon" href="/PLog_In/assets/img/coroa_favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="/PLog_In/assets/css/style.css">
-    <title><?= TITLE ?></title>
-</head>
-<body>
     <form action="#" method="get">
-
+        <!-- Tabela para organizar o conteúdo -->
         <table>
-            <tr>
-                    <td>
-                    <td>
-                    <img src="/PLog_In/assets/img/logotipo.png" alt="Imagem do perfil" width="100">
+            <!-- <tr> representa uma linha da tabela -->
+            <tr> 
+                <!-- <td> representa uma célula da linha (coluna) -->
+                <td colspan=2><h1>Bem vindo(a) <?= $_SESSION["user"]->getUser() ?></h1></td> 
+                <td></td>
+                
+                <td>
+                    <img src="<?= $_SESSION["user"]->getPhoto() ?>" alt="Imagem do perfil" width="100">
                     <br>
                     <input type="file" name="photo" id="photo">
-                    </td>
-                    </td>
+                </td>
+            </tr>
+            <!-- Linha para subtítulo -->
+            <tr>
+                <td colspan=4>
+                    <h3>Dados pessoais</h3>
+                    <hr>
+                </td>
+            </tr>
+            <!-- ///////////////////// -->
+            <tr>
+                <td>
+                    <label for="user">Nome de usuário</label>
+                    <br>
+                    <input type="text" name="user" id="user" value="<?= $_SESSION["user"]->getUser() ?>">
+                </td>
+                <td>
+                    <label for="birth">Data de nascimento</label>
+                    <br>
+                    <input type="date" name="birth" id="birth">
+                </td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>
-                    <label for="user">Nome Completo</label>
+                    <label for="first-name">Nome</label>
                     <br>
-                    <input type="text" name="user" id="user">
-                    <br><br>
-                
-                
-                    <label for="birth">Data de Nascimento</label>
+                    <input type="text" name="first-name" id="first-name">
+                </td>
+                <td>
+                    <label for="last-name">Sobrenome</label>
                     <br>
-                    <input type="date" name="birth" id="birth">
-                    <br><br>
-                
-            
-            
-                
-                
-                
+                    <input type="text" name="last-name" id="last-name">
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan=4>
+                    <label for="desc">Descrição (bio)</label>
+                    <br>
+                    <textarea name="desc" id="desc" cols="100" rows="3" placeholder="Fale sobre você" maxlength="255"></textarea>
+                </td>
+            </tr>
+            <!-- Linha para subtítulo -->
+            <tr>
+                <td colspan=4>
+                    <h3>Endereço</h3>
+                    <hr>
+                </td>
+            </tr>
+            <!-- ///////////////////// -->
+            <tr>
+                <td>
+                    <label for="cep">Cep</label>
+                    <br>
+                    <input type="number" name="cep" id="cep">
+                </td>
+                <td>
                     <label for="address">Endereço</label>
                     <br>
-                    <input type="text" name="address" id="adress">
-                    <br>
+                    <input type="text" name="address" id="address">
+                </td>
+                <td>
                     <label for="number">Número</label>
                     <br>
                     <input type="number" name="number" id="number">
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="complement">Complemento</label>
                     <br>
+                    <input type="text" name="complement" id="complement">
+                </td>
+                <td>
                     <label for="neighborhood">Bairro</label>
                     <br>
                     <input type="text" name="neighborhood" id="neighborhood">
-                    <br>
+                </td>
+                <td>
                     <label for="city">Cidade</label>
                     <br>
                     <input type="text" name="city" id="city">
-                    <br>
+                </td>
+                <td>
                     <label for="state">Estado</label>
                     <br>
                     <select id="state" name="state">
@@ -95,277 +253,90 @@ require_once "/xampp/htdocs/PLog_In/const.php";
                         <option value="TO">Tocantins</option>
                         <option value="EX">Estrangeiro</option>
                     </select>
-                    <br>
-                    <label for="country">País</label>
-                    <br>
-                    <select id="country" name="country">
-                        
-                        <option value="Afeganistão">AF - Afeganistão</option>
-                        <option value="África do Sul">ZA - África do Sul</option>
-                        <option value="Albânia">AL - Albânia</option>
-                        <option value="Alemanha">DE - Alemanha</option>
-                        <option value="Andorra">AD - Andorra</option>
-                        <option value="Angola">AO - Angola</option>
-                        <option value="Anguilla">AI - Anguilla</option>
-                        <option value="Antártica">AQ - Antártica</option>
-                        <option value="Antígua e Barbuda">AG - Antígua e Barbuda</option>
-                        <option value="Arábia Saudita">SA - Arábia Saudita</option>
-                        <option value="Argélia">DZ - Argélia</option>
-                        <option value="Argentina">AR - Argentina</option>
-                        <option value="Armênia">AM - Armênia</option>
-                        <option value="Aruba">AW - Aruba</option>
-                        <option value="Austrália">AU - Austrália</option>
-                        <option value="Áustria">AT - Áustria</option>
-                        <option value="Azerbaijão">AZ - Azerbaijão</option>
-                        <option value="Bahamas">BS - Bahamas</option>
-                        <option value="Bangladesh">BD - Bangladesh</option>
-                        <option value="Barbados">BB - Barbados</option>
-                        <option value="Barém">BH - Barém</option>
-                        <option value="Belarus">BY - Belarus</option>
-                        <option value="Bélgica">BE - Bélgica</option>
-                        <option value="Belize">BZ - Belize</option>
-                        <option value="Benin">BJ - Benin</option>
-                        <option value="Bermuda">BM - Bermuda</option>
-                        <option value="Birmânia">MM - Birmânia</option>
-                        <option value="Bolívia">BO - Bolívia</option>
-                        <option value="Bósnia e Herzegovina">BA - Bósnia e Herzegovina</option>
-                        <option value="Botswana">BW - Botswana</option>
-                        <option value="Brasil">BR - Brasil</option>
-                        <option value="Brunei">BN - Brunei</option>
-                        <option value="Bulgária">BG - Bulgária</option>
-                        <option value="Burkina Faso">BF - Burkina Faso</option>
-                        <option value="Burundi">BI - Burundi</option>
-                        <option value="Butão">BT - Butão</option>
-                        <option value="Cabo Verde">CV - Cabo Verde</option>
-                        <option value="Camarões">CM - Camarões</option>
-                        <option value="Camboja">KH - Camboja</option>
-                        <option value="Canadá">CA - Canadá</option>
-                        <option value="Cazaquistão">KZ - Cazaquistão</option>
-                        <option value="Chad">TD - Chad</option>
-                        <option value="Chile">CL - Chile</option>
-                        <option value="China">CN - China</option>
-                        <option value="Chipre">CY - Chipre</option>
-                        <option value="Cingapura">SG - Cingapura</option>
-                        <option value="Cisjordânia">PS - Cisjordânia</option>
-                        <option value="Colômbia">CO - Colômbia</option>
-                        <option value="Cômoros">KM - Cômoros</option>
-                        <option value="Coreia do Norte">KP - Coreia do Norte</option>
-                        <option value="Coreia do Sul">KR - Coreia do Sul</option>
-                        <option value="Costa do Marfim">CI - Costa do Marfim</option>
-                        <option value="Costa Rica">CR - Costa Rica</option>
-                        <option value="Croácia">HR - Croácia</option>
-                        <option value="Cuba">CU - Cuba</option>
-                        <option value="Curaçao">CW - Curaçao</option>
-                        <option value="Dinamarca">DK - Dinamarca</option>
-                        <option value="Djibuti">DJ - Djibuti</option>
-                        <option value="Dominica">DM - Dominica</option>
-                        <option value="Egito">EG - Egito</option>
-                        <option value="El Salvador">SV - El Salvador</option>
-                        <option value="Emirados Árabes Unidos">AE - Emirados Árabes Unidos</option>
-                        <option value="Equador">EC - Equador</option>
-                        <option value="Eritréia">ER - Eritréia</option>
-                        <option value="Eslováquia">SK - Eslováquia</option>
-                        <option value="Eslovênia">SI - Eslovênia</option>
-                        <option value="Espanha">ES - Espanha</option>
-                        <option value="Estados Unidos">US - Estados Unidos</option>
-                        <option value="Estônia">EE - Estônia</option>
-                        <option value="Etiópia">ET - Etiópia</option>
-                        <option value="Faixa de Gaza">PS - Faixa de Gaza</option>
-                        <option value="Fiji">FJ - Fiji</option>
-                        <option value="Filipinas">PH - Filipinas</option>
-                        <option value="Finlândia">FI - Finlândia</option>
-                        <option value="França Metropolitana">FX - França Metropolitana</option>
-                        <option value="França">FR - França</option>
-                        <option value="Gabão">GA - Gabão</option>
-                        <option value="Gâmbia">GM - Gâmbia</option>
-                        <option value="Gana">GH - Gana</option>
-                        <option value="Geórgia do Sul e Ilhas">GS - Geórgia do Sul e Ilhas</option>
-                        <option value="Geórgia">GE - Geórgia</option>
-                        <option value="Gibraltar">GI - Gibraltar</option>
-                        <option value="Grécia">GR - Grécia</option>
-                        <option value="Greenland">GL - Greenland</option>
-                        <option value="Grenada">GD - Grenada</option>
-                        <option value="Guadelupe">GP - Guadelupe</option>
-                        <option value="Guam">GU - Guam</option>
-                        <option value="Guatemala">GT - Guatemala</option>
-                        <option value="Guernsey">GG - Guernsey</option>
-                        <option value="Guiana Francesa">GF - Guiana Francesa</option>
-                        <option value="Guiana">GY - Guiana</option>
-                        <option value="Guiné Equatorial">GQ - Guiné Equatorial</option>
-                        <option value="Guiné">GN - Guiné</option>
-                        <option value="Guiné-Bissau">GW - Guiné-Bissau</option>
-                        <option value="Haiti">HT - Haiti</option>
-                        <option value="Holanda">NL - Holanda</option>
-                        <option value="Honduras">HN - Honduras</option>
-                        <option value="Hong Kong">HK - Hong Kong</option>
-                        <option value="Hungria">HU - Hungria</option>
-                        <option value="Iêmen">YE - Iêmen</option>
-                        <option value="Ilha Bouvet">BV - Ilha Bouvet</option>
-                        <option value="Ilha Christmas">CX - Ilha Christmas</option>
-                        <option value="Ilha de Man">IM - Ilha de Man</option>
-                        <option value="Ilha Norfolk">NF - Ilha Norfolk</option>
-                        <option value="Ilhas Caiman">KY - Ilhas Caiman</option>
-                        <option value="Ilhas Cocos (Keeling)">CC - Ilhas Cocos (Keeling)</option>
-                        <option value="Ilhas Cook">CK - Ilhas Cook</option>
-                        <option value="Ilhas Falkland (Malvinas)">FK - Ilhas Falkland (Malvinas)</option>
-                        <option value="Ilhas Feroe">FO - Ilhas Feroe</option>
-                        <option value="Ilhas Heard and McDonald">HM - Ilhas Heard and McDonald</option>
-                        <option value="Ilhas Marianas do Norte">MP - Ilhas Marianas do Norte</option>
-                        <option value="Ilhas Marshall">MH - Ilhas Marshall</option>
-                        <option value="Ilhas Maurício">mu – Ilhas Maurício</option>
-                        <option value="Ilhas Menores Distantes dos Estados Unidos">UM - Ilhas Menores Distantes dos Estados Unidos</option>
-                        <option value="Ilhas Pitcairn">PN - Ilhas Pitcairn</option>
-                        <option value="Ilhas Salomão">SB - Ilhas Salomão</option>
-                        <option value="Ilhas Turks e Caicos">TC - Ilhas Turks e Caicos</option>
-                        <option value="Ilhas Virgens Americanas">VI - Ilhas Virgens Americanas</option>
-                        <option value="Ilhas Virgens Britânicas">VG - Ilhas Virgens Britânicas</option>
-                        <option value="Ilhas Wallis e Futuna">WF - Ilhas Wallis e Futuna</option>
-                        <option value="Índia">IN - Índia</option>
-                        <option value="Indonésia">ID - Indonésia</option>
-                        <option value="Irã">IR - Irã</option>
-                        <option value="Iraque">IQ - Iraque</option>
-                        <option value="Irlanda">IE - Irlanda</option>
-                        <option value="Islândia">IS - Islândia</option>
-                        <option value="Israel">IL - Israel</option>
-                        <option value="Itália">IT - Itália</option>
-                        <option value="Jamaica">JM - Jamaica</option>
-                        <option value="Japão">JP - Japão</option>
-                        <option value="Jersey">JE - Jersey</option>
-                        <option value="Jordânia">JO - Jordânia</option>
-                        <option value="Kiribati">KI - Kiribati</option>
-                        <option value="Kosovo">XK - Kosovo</option>
-                        <option value="Kuwait">KW - Kuwait</option>
-                        <option value="Laos">LA - Laos</option>
-                        <option value="Lesoto">LS - Lesoto</option>
-                        <option value="Letônia">LV - Letônia</option>
-                        <option value="Líbano">LB - Líbano</option>
-                        <option value="Libéria">LR - Libéria</option>
-                        <option value="Líbia">LY - Líbia</option>
-                        <option value="Liechtenstein">LI - Liechtenstein</option>
-                        <option value="Lituânia">LT - Lituânia</option>
-                        <option value="Luxemburgo">LU - Luxemburgo</option>
-                        <option value="Macao">MO - Macao</option>
-                        <option value="Macedônia">MK - Macedônia</option>
-                        <option value="Madagascar">MG - Madagascar</option>
-                        <option value="Maiote">YT - Maiote</option>
-                        <option value="Malásia">MY - Malásia</option>
-                        <option value="Malawi">MW - Malawi</option>
-                        <option value="Maldivas">MV - Maldivas</option>
-                        <option value="Mali">ML - Mali</option>
-                        <option value="Malta">MT - Malta</option>
-                        <option value="Marrocos">MA - Marrocos</option>
-                        <option value="Martinica">MQ - Martinica</option>
-                        <option value="Mauritânia">MR - Mauritânia</option>
-                        <option value="México">MX - México</option>
-                        <option value="Micronésia, Estados Federados da">FM - Micronésia, Estados Federados da</option>
-                        <option value="Moçambique">MZ - Moçambique</option>
-                        <option value="Moldova">MD - Moldova</option>
-                        <option value="Mônaco">MC - Mônaco</option>
-                        <option value="Mongólia">MN - Mongólia</option>
-                        <option value="Montenegro">ME - Montenegro</option>
-                        <option value="Montserrat">MS - Montserrat</option>
-                        <option value="Namíbia">NA - Namíbia</option>
-                        <option value="Nauru">NR - Nauru</option>
-                        <option value="Nepal">NP - Nepal</option>
-                        <option value="Nicarágua">NI - Nicarágua</option>
-                        <option value="Níger">NE - Níger</option>
-                        <option value="Nigéria">NG - Nigéria</option>
-                        <option value="Niue">NU - Niue</option>
-                        <option value="Noruega">NO - Noruega</option>
-                        <option value="Nova Caledônia">NC - Nova Caledônia</option>
-                        <option value="Nova Zelândia">NZ - Nova Zelândia</option>
-                        <option value="Omã">OM - Omã</option>
-                        <option value="Outros">Outros ...</option>
-                        <option value="Palau">PW - Palau</option>
-                        <option value="Panamá">PA - Panamá</option>
-                        <option value="Papua Nova Guiné">PG - Papua Nova Guiné</option>
-                        <option value="Paquistão">PK - Paquistão</option>
-                        <option value="Paraguai">PY - Paraguai</option>
-                        <option value="Peru">PE - Peru</option>
-                        <option value="Polinésia Francesa">PF - Polinésia Francesa</option>
-                        <option value="Polônia">PL - Polônia</option>
-                        <option value="Porto Rico">PR - Porto Rico</option>
-                        <option value="Portugal">PT - Portugal</option>
-                        <option value="Qatar">QA - Qatar</option>
-                        <option value="Quênia">KE - Quênia</option>
-                        <option value="Quirguistão">KG - Quirguistão</option>
-                        <option value="Reino Unido">GB - Reino Unido</option>
-                        <option value="República Centro-Africana">CF - República Centro-Africana</option>
-                        <option value="República Democrática do Congo">CD - República Democrática do Congo</option>
-                        <option value="República do Congo">CG - República do Congo</option>
-                        <option value="República Dominicana">DO - República Dominicana</option>
-                        <option value="República Tcheca">CZ - República Tcheca</option>
-                        <option value="Reunião">RE - Reunião</option>
-                        <option value="Romênia">RO - Romênia</option>
-                        <option value="Ruanda">RW - Ruanda</option>
-                        <option value="Rússia">RU - Rússia</option>
-                        <option value="Saara Ocidental">EH - Saara Ocidental</option>
-                        <option value="Saint Martin">MF - Saint Martin</option>
-                        <option value="Saint Pierre e Miquelon">PM - Saint Pierre e Miquelon</option>
-                        <option value="Samoa Americana">AS - Samoa Americana</option>
-                        <option value="Samoa">WS - Samoa</option>
-                        <option value="San Marino">SM - San Marino</option>
-                        <option value="Santa Helena, Ascensão e Tristão da Cunha">SH - Santa Helena, Ascensão e Tristão da Cunha</option>
-                        <option value="Santa Lúcia">LC - Santa Lúcia</option>
-                        <option value="Santa Sé (Cidade do Vaticano)">VA - Santa Sé (Cidade do Vaticano)</option>
-                        <option value="São Bartolomeu">BL - São Bartolomeu</option>
-                        <option value="São Cristóvão e Nevis">KN - São Cristóvão e Nevis</option>
-                        <option value="São Martinho">SX - São Martinho</option>
-                        <option value="São Tomé e Prín">ST - São Tomé e Príncipe</option>
-                        <option value="São Vicente e Granadinas">VC - São Vicente e Granadinas</option>
-                        <option value="Seicheles">SC - Seicheles</option>
-                        <option value="Senegal">SN - Senegal</option>
-                        <option value="Serra Leoa">SL - Serra Leoa</option>
-                        <option value="Sérvia">RS - Sérvia</option>
-                        <option value="Síria">SY - Síria</option>
-                        <option value="Somália">SO - Somália</option>
-                        <option value="Sri Lanka">LK - Sri Lanka</option>
-                        <option value="Suazilândia">SZ - Suazilândia</option>
-                        <option value="Sudão do Sul">SS - Sudão do Sul</option>
-                        <option value="Sudão">SD - Sudão</option>
-                        <option value="Suécia">SE - Suécia</option>
-                        <option value="Suíça">CH - Suíça</option>
-                        <option value="Sul da França e Antártica">TF - Sul da França e Antártica</option>
-                        <option value="Suriname">SR - Suriname</option>
-                        <option value="Svalbard">SJ - Svalbard</option>
-                        <option value="Tadjiquistão">TJ - Tadjiquistão</option>
-                        <option value="Tailândia">TH - Tailândia</option>
-                        <option value="Taiwan">TW - Taiwan</option>
-                        <option value="Tanzânia">TZ - Tanzânia</option>
-                        <option value="Território Britânico do Oceano Índico">IO - Território Britânico do Oceano Índico</option>
-                        <option value="Timor-Leste">TL - Timor-Leste</option>
-                        <option value="Togo">TG - Togo</option>
-                        <option value="Tonga">TO - Tonga</option>
-                        <option value="Toquelau">TK - Toquelau</option>
-                        <option value="Trinidad e Tobago">TT - Trinidad e Tobago</option>
-                        <option value="Tunísia">TN - Tunísia</option>
-                        <option value="Turcomenistão">TM - Turcomenistão</option>
-                        <option value="Turquia">TR - Turquia</option>
-                        <option value="Tuvalu">TV - Tuvalu</option>
-                        <option value="Ucrânia">UA - Ucrânia</option>
-                        <option value="Uganda">UG - Uganda</option>
-                        <option value="Uruguai">UY - Uruguai</option>
-                        <option value="Uzbequistão">UZ - Uzbequistão</option>
-                        <option value="Vanuatu">VU - Vanuatu</option>
-                        <option value="Venezuela">VE - Venezuela</option>
-                        <option value="Vietnã">VN - Vietnã</option>
-                        <option value="Zâmbia">ZM - Zâmbia</option>
-                        <option value="Zimbábue">ZW - Zimbábue</option>
-                    </select>
-                    <br><br>
+                </td>
+            </tr>
+            <!-- Subtítulo -->
+            <tr>
+                <td colspan=4>
+                    <h3>Sexo</h3>
+                    <hr>
+                </td>
+            </tr>
+            <!-- ///////// -->
+            <tr>
+                <td>
+                    <input type="radio" name="sex" id="male" value="male">
+                    <label for="male">Masculino</label>
+                </td>
+                <td>
+                    <input type="radio" name="sex" id="female" value="female">
+                    <label for="female">Feminino</label>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- Subtítulo -->
+            <tr>
+                <td colspan=4>
+                    <h3>Contatos</h3>
+                    <hr>
+                </td>
+            </tr>
+            <!-- ///////// -->
+            <tr>
+                <td>
                     <label for="phone">Telefone</label>
                     <br>
                     <input type="tel" name="phone" id="phone" pattern="[0-9]{2}-[0-9]{9}">
-                    <br><br>
-                    <label for="biography">Biografia</label>
-                    <br>
-                    <input type="text" name="biography" id="biography">
-                    <br><br>
                 </td>
-                
-            
+                <td>
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="email" name="email" id="email">
+                </td>
+                <td colspan=2>
+                    <input type="checkbox" name="notify" id="notify" value="yes">
+                    <label for="notify">Desejo receber notificações</label>
+                </td>
+            </tr>
+            <!-- Linha para subtítulo -->
+            <tr>
+                <td colspan=4>
+                    <h3>Senha</h3>
+                    <hr>
+                </td>
+            </tr>
+            <!-- ///////////////////// -->
+            <tr>
+                <td>
+                    <label for="actual-pass">Senha atual</label>
+                    <br>
+                    <input type="password" name="actual-pass" id="actual-pass" class="show-pass" value="<?= $_SESSION["user"]->getPass() ?>">
+                </td>
+                <td>
+                    <label for="new-pass">Nova senha</label>
+                    <br>
+                    <input type="password" name="new-pass" id="new-pass" class="show-pass">
+                </td>
+                <td>
+                    <label for="confirm-pass">Cofirmação de senha</label>
+                    <br>
+                    <input type="password" name="confirm-pass" id="confirm-pass" class="show-pass">
+                </td>
+                <td id="show-pass">😲</td>
+            </tr>
+            <!-- Botões do formulário -->
+            <tr>
+                <td colspan=4>
+                    <br>
+                   <input type="submit" value="Salvar">
+                   <input type="reset" value="Limpar">
+                </td>
+            </tr>
+            <!-- ///////////////////// -->
         </table>
-
     </form>
-</body>
-</html>
+
+<?php
+//Importação do rodapé
+include "/xampp/htdocs/aula12_manha_leo_gon/src/controller/footer.php";
