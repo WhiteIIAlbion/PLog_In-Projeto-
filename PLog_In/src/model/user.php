@@ -1,44 +1,42 @@
 <?php
-//Importando arquivo de banco de dados (lista)
-require PATH . "/database.php";
 
 class User {
     //Atributos
+    private $cod;
+    private $status;
     private $user;
     private $pass;
     private $photo;
     private $birth;
-    private $firstName;
-    private $lastName;
-    private $desc;
-    private $cep;
+    private $completeName;
+    private $biography;
     private $address;
     private $number;
     private $complement;
     private $neighborhood;
     private $city;
     private $state;
-    private $sex;
     private $phone;
-    private $email;
-    private $notify;
     private $newPass;
-
+    private $profile;
+    
     //Método construtor
-    public function __construct($n, $p) {
+    public function __construct($n = null, $p = null) {
         $this->user = $n;
         $this->pass = $p;
     }
 
     //Método para validar o login
     public function login() {
-        
-        //Criando instãncia da classe Database
+        //Criando objeto da classe Database
         $db = new Database();
 
-        //Obtendo lista de dados do BD
-        $listUsers = $db->select("SELECT * FROM users");
-
+        //Selecionar todos os registros da tabela
+        //users
+        $listUsers = $db->select(
+            "SELECT * FROM users"
+        );
+        
         //Criando variável booleana para controlar se o
         //login deu certo ou não
         $check = false;
@@ -50,6 +48,23 @@ class User {
                     //Só entra aqui se a senha do usuario encontrado for
                     //a mesma que a digitada
                     $check = true;
+
+                    //Preenchendo os demais atributos do objeto
+                    $this->cod = $u->user_cod;
+                    $this->photo = $u->user_photo;
+                    $this->birth = $u->user_birth;
+                    $this->completeName = $u->user_complete_name;
+                    $this->biography = $u->user_biography;
+                    $this->address = $u->user_address;
+                    $this->number = $u->user_number;
+                    $this->complement = $u->user_complement;
+                    $this->neighborhood = $u->user_neighborhood;
+                    $this->city = $u->user_city;
+                    $this->state = $u->user_state;
+                    $this->phone = $u->user_phone;
+                    $this->newPass = $u->user_new_pass;
+                    $this->status = $u->user_status;
+                    $this->profile = $u->user_profile;
                 }
             } 
         }
@@ -58,6 +73,40 @@ class User {
    
     //Função para retornar o objeto inteiro
     public function getObject() {
+        return $this;
+    }
+
+    //Função para atualizar objeto com os
+    //dados do banco de dados
+    public function updateObject($id) {
+        //Para obtermos os dados do BD
+        //precisamos criar um objeto da
+        //classe Database
+        $db = new Database();
+
+        //Fazer uso do método de seleção de dados
+        $u = $db->select(
+            "SELECT * FROM users WHERE user_cod = '$id'"
+        );
+
+        //Atualizar atributos do objeto conforme dados
+        //do BD
+        //$this->cod = $u->user_cod;
+        $this->photo            = $u[0]->user_photo;
+        $this->birth            = $u[0]->user_birth;
+        $this->completeName        = $u[0]->user_complete_name;
+        $this->biography             = $u[0]->user_biography;
+        $this->address          = $u[0]->user_address;
+        $this->number           = $u[0]->user_number;
+        $this->complement       = $u[0]->user_complement;
+        $this->neighborhood     = $u[0]->user_neighborhood;
+        $this->city             = $u[0]->user_city;
+        $this->state            = $u[0]->user_state;
+        $this->phone            = $u[0]->user_phone;
+        $this->newPass          = $u[0]->user_new_pass;
+        $this->status           = $u[0]->user_status;
+
+        //Agora, retornamos o objeto atualizado
         return $this;
     }
 
@@ -136,71 +185,36 @@ class User {
     /**
      * Get the value of firstName
      */
-    public function getFirstName()
+    public function getCompleteName()
     {
-        return $this->firstName;
+        return $this->completeName;
     }
 
     /**
      * Set the value of firstName
      */
-    public function setFirstName($firstName): self
+    public function setCompleteName($completeName): self
     {
-        $this->firstName = $firstName;
+        $this->completeName = $completeName;
 
         return $this;
     }
 
-    /**
-     * Get the value of lastName
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the value of lastName
-     */
-    public function setLastName($lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
 
     /**
      * Get the value of desc
      */
-    public function getDesc()
+    public function getBiography()
     {
-        return $this->desc;
+        return $this->biography;
     }
 
     /**
      * Set the value of desc
      */
-    public function setDesc($desc): self
+    public function setBiography($biography): self
     {
-        $this->desc = $desc;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of cep
-     */
-    public function getCep()
-    {
-        return $this->cep;
-    }
-
-    /**
-     * Set the value of cep
-     */
-    public function setCep($cep): self
-    {
-        $this->cep = $cep;
+        $this->biography = $biography;
 
         return $this;
     }
@@ -312,25 +326,6 @@ class User {
 
         return $this;
     }
-
-    /**
-     * Get the value of sex
-     */
-    public function getSex()
-    {
-        return $this->sex;
-    }
-
-    /**
-     * Set the value of sex
-     */
-    public function setSex($sex): self
-    {
-        $this->sex = $sex;
-
-        return $this;
-    }
-
     /**
      * Get the value of phone
      */
@@ -350,42 +345,6 @@ class User {
     }
 
     /**
-     * Get the value of email
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Set the value of email
-     */
-    public function setEmail($email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of notify
-     */
-    public function getNotify()
-    {
-        return $this->notify;
-    }
-
-    /**
-     * Set the value of notify
-     */
-    public function setNotify($notify): self
-    {
-        $this->notify = $notify;
-
-        return $this;
-    }
-
-    /**
      * Get the value of newPass
      */
     public function getNewPass()
@@ -399,6 +358,60 @@ class User {
     public function setNewPass($newPass): self
     {
         $this->newPass = $newPass;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of status
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of status
+     */
+    public function setStatus($status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of cod
+     */
+    public function getCod()
+    {
+        return $this->cod;
+    }
+
+    /**
+     * Set the value of cod
+     */
+    public function setCod($cod): self
+    {
+        $this->cod = $cod;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of profile
+     */
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    /**
+     * Set the value of profile
+     */
+    public function setProfile($profile): self
+    {
+        $this->profile = $profile;
 
         return $this;
     }

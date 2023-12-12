@@ -1,17 +1,55 @@
+/*------Cores--------
+
+Marrom = #2B1511
+Vermelho = #800000
+Amarelo = #BC9C22
+Verde = #77B255
+
+*/
+/* Seletor de tag */
 body {
-    background-color: rgb(214, 211, 172);
+    background-color: #2B1511;
+}
+
+#bodyprofile {
+
+    background-color: #800000;
+
 }
 
 /* Seletor de id (#) */
-#login {
-    background-color: rgb(196, 171, 196);
-    width: 350px;
+/*#login {
+    border: 3px, solid blue;
+    background-color: #800000;
+    max-width: 350px;
+    height: max-content;
     padding: 20px;
     text-align: center;
     position: fixed;
     top: 50%;
-    left: 50%;
+    left: 25%;
     transform: translate(-50%, -50%);
+}*/
+
+#login {
+    background-color: #800000;
+    width: 500px;
+    padding: 50px;
+    text-align: center;
+    position: fixed;
+    height: 550px;
+    
+    
+    
+}
+
+#login-img {
+    position: fixed;
+    left: 58%;
+    top: 15%;
+    height: auto;
+    width: auto;
+
 }
 
 /* Seletor de class (.) */
@@ -29,7 +67,7 @@ input[type="submit"], input[type="reset"] {
     font-size: 14pt;
     padding: 10px;
     cursor: pointer;
-    border-radius: 0px;
+    border-radius: 12px;
     transition: 0.3s;
 }
 
@@ -47,3 +85,76 @@ input[type="submit"]:hover, input[type="reset"]:hover  {
     text-align: left;
     margin: 0px 30px 0px 30px;
 }
+
+button {
+    cursor: pointer;
+}
+
+#h1log{
+
+    color: #BC9C22;
+
+}
+
+#cadlog{
+
+    color: #77B255;
+    font-size-adjust: 14px;
+
+}
+
+#esqsenha{
+
+    color: #77B255;
+
+}
+
+
+#btnlog{
+
+    color: white;
+    background-color: #2B1511;
+    
+}
+
+#btnlog2{
+
+    
+    color: white;
+    background-color: #2B1511;
+    border-radius: 12px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16pt;
+
+}
+
+#btnlog3{
+
+    
+    color: white;
+    background-color: #2B1511;
+    border-radius: 12px;
+    width: 25%;
+    padding: 10px;
+    font-size: 16pt;
+
+}
+
+#titulo{
+
+    color: #BC9C22;
+
+}
+
+#letras{
+
+    color: #77B255;
+
+}
+
+input[name="photo"] {
+    
+    color: #BC9C22;
+}
+

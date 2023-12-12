@@ -1,6 +1,9 @@
 <?php
+$a = explode("\\", __DIR__);
+$dir = "/{$a[1]}/{$a[2]}/{$a[3]}";
+
 //Importando as constantes
-include "/xampp/htdocs/PLog_In/const.php";
+include $dir."/const.php";
 
 //Inicializando sessão
 session_start();
@@ -14,7 +17,7 @@ session_start();
     <meta name="description" content="<?= DESCRIPTION ?>">
     <meta name="keywords" content="<?= KEYWORDS ?>">
     <meta name="author" content="<?= AUTHOR ?>">
-    <link rel="shortcut icon" href="<?= ASSETS ?>/img/coroa_favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= ASSETS ?>/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/style.css">
     <title><?= TITLE ?></title>
 </head>

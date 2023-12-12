@@ -1,9 +1,11 @@
 <?php
-//Importação do cabeçalho
-include "/xampp/htdocs/aula12_manha_leo_gon/src/controller/header.php";
+$a = explode("\\", __DIR__);
+$dir = "/{$a[1]}/{$a[2]}/{$a[3]}";
 
+//Importação do cabeçalho
+include $dir."/src/controller/header.php";
 include MODEL . "/user.php";
-require_once MODEL . "/database.php";
+include MODEL . "/database.php";
 
 //Variável para validar se os dados
 //foram enviados
@@ -31,52 +33,52 @@ if( isset($_POST["pass"]) ) {
 }
 
 if($count >= 2) {
-
-    //Instãnciar Classe Database
+    //Instanciando classe Database
     $db = new Database();
 
     //Criptografando senha
     $passCripto = sha1($pass);
 
-    //Salvando no BD
+    //Chamando método para salvar no BD
     $db->insert(
-
         "INSERT INTO users(user_name, user_pass)
-         VALUES('$user', '$passCripto')"
-
+        VALUES ('$user', '$passCripto')"
     );
 
     //Mensagem de sucesso
-    echo "<script> alert('Cadastro realizado! ✅') </script>";
+    echo "<script>alert(Tudo feito Bro!!!)</script>";
 
     //Redirecionamento para index
-    header("Refresh: 0; url = ".ROOT);
+    header("Refresh: 2; url = ".ROOT);
 }
 
 ?>
 
 
     <div id="login">
-        <h1>Registro</h1>
+        <h1 id="h1log">Cadastrar... Cadastrar... Cadastrar...</h1>
+        <a href="<?= ROOT ?>" id="cadlog">Voltar para o inicio!</a>
+        <br><br><br>
         <form action="#" method="post" onsubmit="return checkPass()">
             <div id="login-fields">
                 <input type="text" name="user" id="user" class="login" placeholder="Nome de usuario *" required>
-                <br><br>
-                <input type="email" name="email" id="email" class="login" placeholder="Email">
-                <br><br>
+                <br><br><br>
                 <input type="password" onmouseover="showPass(this)" onmouseleave="hidePass(this)" name="pass" id="pass" class="login" placeholder="Senha *" required>
-                <br><br>
+                <br><br><br>
                 <input type="password" onmouseover="showPass(this)" onmouseleave="hidePass(this)" name="pass-confirm" id="pass-confirm" class="login" placeholder="Confirmação de senha *" required>
-                <br><br>
-                <span>* Campos obrigatórios</span>
+                <br><br><br>
+                <span id="esqsenha">* Campos obrigatórios</span>
+                <br>
             </div>
-            <br><hr><br>
-            <input type="submit" value="Registrar ✅">
+            <br><br>
+            <input type="submit" value="Criar!!!" id="btnlog">
             <br>
-        </form>
-        <a href="<?= ROOT ?>">Voltar para login</a>
+        </form>        
+    </div>
+    <div id="login-img">
+        <img src="<?=ASSETS?>/img/charmander.png" alt="Imagem" width="400">
     </div>
 
 <?php
 //Importação do rodapé
-include "/xampp/htdocs/aula12_manha_leo_gon/src/controller/footer.php";
+include $dir."/src/controller/footer.php";

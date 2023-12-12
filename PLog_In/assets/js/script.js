@@ -1,21 +1,21 @@
 function checkPass() {
-   let pass = document.getElementById("pass").value
-   let passConf = document.getElementById("pass-confirm").value
-   let check = true
+    let pass = document.getElementById("pass").value
+    let passConf = document.getElementById("pass-confirm").value
+    let check = true
 
-   if(pass != passConf) {
-       check = false
-       alert("Senhas não coincidem! ❌")
-   }
+    if(pass != passConf) {
+        check = false
+        alert("Senhas não coincidem! ❌")
+    }
 
-   return check
+    return check
 }
 
 
 function showPass(e) {
-   e.type = "text"
+    e.type = "text"
 }
 
 function hidePass(e) {
-   e.type = "password"
+    e.type = "password"
 }

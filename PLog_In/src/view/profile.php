@@ -1,229 +1,145 @@
 <?php
+$a = explode("\\", __DIR__);
+$dir = "/{$a[1]}/{$a[2]}/{$a[3]}";
+
 //Importação do cabeçalho
-include "/xampp/htdocs/aula12_manha_leo_gon/src/controller/header.php";
+include $dir."/src/controller/header.php";
 
+//Importação dos arquivos que contém as classes User e Database
 include MODEL . "/user.php";
+include MODEL . "/database.php";
 
-//Recebendo os dados do formulário
-if( isset($_GET["photo"]) ) {
-    $photo = $_GET["photo"];
-} else {
-    $photo = null;
-}
+//Importando arquivo que verifica se a sessão está "desligada".
+//Caso esteja, redireciona o usuário para a página de login
+include CONTROLLER . "/session_off.php";
 
-if( isset($_GET["user"]) ) {
-    $user = $_GET["user"];
-} else {
-    $user = null;
-}
+session_reset();
 
-if( isset($_GET["birth"]) ) {
-    $birth = $_GET["birth"];
-} else {
-    $birth = null;
-}
+//Lançando dados da $_SESSION para uma variável
+//simples, apenas para facilitar nossa vida
+$u = $_SESSION["user"];
+//var_dump( $u );
 
-if( isset($_GET["first-name"]) ) {
-    $firstName = $_GET["first-name"];
-} else {
-    $firstName = null;
-}
-
-if( isset($_GET["last-name"]) ) {
-    $lastName = $_GET["last-name"];
-} else {
-    $lastName = null;
-}
-
-if( isset($_GET["desc"]) ) {
-    $desc = $_GET["desc"];
-} else {
-    $desc = null;
-}
-
-if( isset($_GET["cep"]) ) {
-    $cep = $_GET["cep"];
-} else {
-    $cep = null;
-}
-
-if( isset($_GET["address"]) ) {
-    $address = $_GET["address"];
-} else {
-    $address = null;
-}
-
-if( isset($_GET["number"]) ) {
-    $number = $_GET["number"];
-} else {
-    $number = null;
-}
-
-if( isset($_GET["complement"]) ) {
-    $complement = $_GET["complement"];
-} else {
-    $complement = null;
-}
-
-if( isset($_GET["neighborhood"]) ) {
-    $neighborhood = $_GET["neighborhood"];
-} else {
-    $neighborhood = null;
-}
-
-if( isset($_GET["city"]) ) {
-    $city = $_GET["city"];
-} else {
-    $city = null;
-}
-
-if( isset($_GET["state"]) ) {
-    $state = $_GET["state"];
-} else {
-    $state = null;
-}
-
-if( isset($_GET["sex"]) ) {
-    $sex = $_GET["sex"];
-} else {
-    $sex = null;
-}
-
-if( isset($_GET["phone"]) ) {
-    $phone = $_GET["phone"];
-} else {
-    $phone = null;
-}
-
-if( isset($_GET["email"]) ) {
-    $email = $_GET["email"];
-} else {
-    $email = null;
-}
-
-if( isset($_GET["notify"]) ) {
-    $notify = $_GET["notify"];
-} else {
-    $notify = null;
-}
-
-if( isset($_GET["actual-pass"]) ) {
-    $actualPass = $_GET["actual-pass"];
-} else {
-    $actualPass = null;
-}
-
-if( isset($_GET["new-pass"]) ) {
-    $newPass = $_GET["new-pass"];
-} else {
-    $newPass = null;
-}
 ?>
 
-    <form action="#" method="get">
+<script>
+    function callUpdate() {
+       return confirm("Deseja atualizar os dados?")
+    }
+</script>
+ <body id="bodyprofile">
+    
+
+    <form action="<?= ROOT ?>/src/controller/update_profile.php" method="post" onsubmit="return callUpdate()" enctype="multipart/form-data">
         <!-- Tabela para organizar o conteúdo -->
         <table>
+            <tr><td><button type="button" onclick="window.location.href='<?= ROOT ?>/src/controller/logout.php'" id="btnlog2">Desconectar!!!</button></td><td></td><td colspan=3></td><td></td><td><br><br><img src="<?= ($u->getPhoto()==null) ? ASSETS."/img/profile/logotipo_poke.png" : $u->getPhoto() ?>" alt="Imagem do perfil" width="100"></td></tr>
             <!-- <tr> representa uma linha da tabela -->
             <tr> 
                 <!-- <td> representa uma célula da linha (coluna) -->
-                <td colspan=2><h1>Bem vindo(a) <?= $_SESSION["user"]->getUser() ?></h1></td> 
+                <td colspan=2><h1 id="titulo">Bem vindo <?= $u->getUser() ?>!!!</h1></td> 
                 <td></td>
                 
+                <td>                    
+                </td>
+                <td></td>
+                <td></td>
+                <td><input type="file" name="photo" id="photo"></td>
+            </tr>
+            <!-- Linha para subtítulo -->
+            <tr>
+                <td colspan=4>
+                    <h3 id="titulo">Dados pessoais:</h3>
+                </td>
+            </tr>
+            <!-- ///////////////////// -->
+            <tr>
                 <td>
-                    <img src="<?= $_SESSION["user"]->getPhoto() ?>" alt="Imagem do perfil" width="100">
+                    <label for="user" id="letras">Nome de usuário:</label>
                     <br>
-                    <input type="file" name="photo" id="photo">
+                    <input type="text" name="user" id="user" value="<?= $u->getUser() ?>">
+                </td>
+                <td>
+                    <label for="complete-name" id="letras">Nome Completo:</label>
+                    <br>
+                    <input type="text" name="complete-name" id="complete-name" value="<?= $u->getCompleteName() ?>">
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="birth" id="letras">Data de nascimento:</label>
+                    <br>
+                    <input type="date" name="birth" id="birth" value="<?= $u->getBirth() ?>">
+                    
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan=4>
+                    <label for="biography" id="letras">Biografia:</label>
+                    <br>
+                    <textarea name="biography" id="biography" cols="100" rows="3" placeholder="Fale sobre você" maxlength="255"><?= $u->getBiography() ?></textarea>
                 </td>
             </tr>
             <!-- Linha para subtítulo -->
             <tr>
                 <td colspan=4>
-                    <h3>Dados pessoais</h3>
+                    <h3 id="titulo">Localização:</h3>
                     <hr>
                 </td>
             </tr>
             <!-- ///////////////////// -->
             <tr>
                 <td>
-                    <label for="user">Nome de usuário</label>
+                    <label for="address" id="letras">Endereço:</label>
                     <br>
-                    <input type="text" name="user" id="user" value="<?= $_SESSION["user"]->getUser() ?>">
+                    <input type="text" name="address" id="address" value="<?= $u->getAddress() ?>">
                 </td>
                 <td>
-                    <label for="birth">Data de nascimento</label>
+                    <label for="number" id="letras">Número:</label>
                     <br>
-                    <input type="date" name="birth" id="birth">
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="first-name">Nome</label>
-                    <br>
-                    <input type="text" name="first-name" id="first-name">
-                </td>
-                <td>
-                    <label for="last-name">Sobrenome</label>
-                    <br>
-                    <input type="text" name="last-name" id="last-name">
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan=4>
-                    <label for="desc">Descrição (bio)</label>
-                    <br>
-                    <textarea name="desc" id="desc" cols="100" rows="3" placeholder="Fale sobre você" maxlength="255"></textarea>
-                </td>
-            </tr>
-            <!-- Linha para subtítulo -->
-            <tr>
-                <td colspan=4>
-                    <h3>Endereço</h3>
-                    <hr>
-                </td>
-            </tr>
-            <!-- ///////////////////// -->
-            <tr>
-                <td>
-                    <label for="cep">Cep</label>
-                    <br>
-                    <input type="number" name="cep" id="cep">
-                </td>
-                <td>
-                    <label for="address">Endereço</label>
-                    <br>
-                    <input type="text" name="address" id="address">
-                </td>
-                <td>
-                    <label for="number">Número</label>
-                    <br>
-                    <input type="number" name="number" id="number">
+                    <input type="number" name="number" id="number" value="<?= $u->getNumber() ?>">
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td>
-                    <label for="complement">Complemento</label>
+                    <label for="complement" id="letras">Complemento:</label>
                     <br>
-                    <input type="text" name="complement" id="complement">
+                    <input type="text" name="complement" id="complement" value="<?= $u->getComplement() ?>">
                 </td>
                 <td>
-                    <label for="neighborhood">Bairro</label>
+                    <label for="neighborhood" id="letras">Bairro:</label>
                     <br>
-                    <input type="text" name="neighborhood" id="neighborhood">
+                    <input type="text" name="neighborhood" id="neighborhood" value="<?= $u->getNeighborhood() ?>">
                 </td>
                 <td>
-                    <label for="city">Cidade</label>
+                    <label for="city" id="letras">Cidade:</label>
                     <br>
-                    <input type="text" name="city" id="city">
+                    <input type="text" name="city" id="city" value="<?= $u->getCity() ?>">
                 </td>
                 <td>
-                    <label for="state">Estado</label>
+                    <label for="state" id="letras">Estado:</label>
                     <br>
+
+                    <?php
+                    //Lançando dado do estado para variável
+                    $uf = $u->getState();
+                    ?>
+
                     <select id="state" name="state">
+
+                    <?=
+                    //Verificando se existe dados salvos no campo
+                    //estado. Caso seja nulo, aparecerá "Selecione"
+                        ($uf == null)
+                        ? "<option value=''>Selecione</option>"
+                        : "<option value='$uf'>$uf</option>"
+                    ?>
+
                         <option value="AC">Acre</option>
                         <option value="AL">Alagoas</option>
                         <option value="AP">Amapá</option>
@@ -256,87 +172,56 @@ if( isset($_GET["new-pass"]) ) {
                 </td>
             </tr>
             <!-- Subtítulo -->
-            <tr>
-                <td colspan=4>
-                    <h3>Sexo</h3>
-                    <hr>
-                </td>
-            </tr>
             <!-- ///////// -->
-            <tr>
-                <td>
-                    <input type="radio" name="sex" id="male" value="male">
-                    <label for="male">Masculino</label>
-                </td>
-                <td>
-                    <input type="radio" name="sex" id="female" value="female">
-                    <label for="female">Feminino</label>
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
             <!-- Subtítulo -->
             <tr>
                 <td colspan=4>
-                    <h3>Contatos</h3>
+                    <h3 id="titulo">Contatos:</h3>
                     <hr>
                 </td>
             </tr>
             <!-- ///////// -->
             <tr>
                 <td>
-                    <label for="phone">Telefone</label>
+                    <label for="phone" id="letras">Telefone:</label>
                     <br>
-                    <input type="tel" name="phone" id="phone" pattern="[0-9]{2}-[0-9]{9}">
-                </td>
-                <td>
-                    <label for="email">Email</label>
-                    <br>
-                    <input type="email" name="email" id="email">
-                </td>
-                <td colspan=2>
-                    <input type="checkbox" name="notify" id="notify" value="yes">
-                    <label for="notify">Desejo receber notificações</label>
+                    <input type="tel" name="phone" id="phone" pattern="[0-9]{2}-[0-9]{9}" value="<?= $u->getPhone() ?>">
                 </td>
             </tr>
             <!-- Linha para subtítulo -->
             <tr>
                 <td colspan=4>
-                    <h3>Senha</h3>
+                    <h3 id="titulo">Senha:</h3>
                     <hr>
                 </td>
             </tr>
             <!-- ///////////////////// -->
             <tr>
                 <td>
-                    <label for="actual-pass">Senha atual</label>
-                    <br>
-                    <input type="password" name="actual-pass" id="actual-pass" class="show-pass" value="<?= $_SESSION["user"]->getPass() ?>">
-                </td>
-                <td>
-                    <label for="new-pass">Nova senha</label>
+                    <label for="new-pass" id="letras">Nova senha:</label>
                     <br>
                     <input type="password" name="new-pass" id="new-pass" class="show-pass">
                 </td>
                 <td>
-                    <label for="confirm-pass">Cofirmação de senha</label>
+                    <label for="confirm-pass" id="letras">Cofirmação de senha:</label>
                     <br>
                     <input type="password" name="confirm-pass" id="confirm-pass" class="show-pass">
                 </td>
-                <td id="show-pass">😲</td>
+                <td id="show-pass">😎</td>
             </tr>
             <!-- Botões do formulário -->
             <tr>
                 <td colspan=4>
                     <br>
-                   <input type="submit" value="Salvar">
-                   <input type="reset" value="Limpar">
+                   <input type="submit" value="Salvar" name="submit" id="btnlog">
+                   <input type="reset" value="Limpar" id="btnlog">
                 </td>
             </tr>
             <!-- ///////////////////// -->
         </table>
     </form>
+</body>
 
 <?php
 //Importação do rodapé
-include "/xampp/htdocs/aula12_manha_leo_gon/src/controller/footer.php";
+include $dir."/src/controller/footer.php";
